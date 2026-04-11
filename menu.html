@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="South Cafe sets the standard for premium dining, specializing in authentic shawarma, luxury parfaits, and refreshing fruit drinks. Experience the best of Calabar and Uyo with our world-class delivery and modern dining ecosystem.">
+    <title>Menu | South Cafe</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo-container">
+                <img src="https://res.cloudinary.com/dhg2oxagk/image/fetch/f_auto,q_auto,w_200/https%3A%2F%2Fdodptt9f4zk9h.cloudfront.net%2Fstores%2F181349%2Fsouthcaf.jpeg" alt="South Cafe" class="logo-img">
+                <span class="logo-text">SOUTH CAFE</span>
+            </a>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="menu.html" class="nav-link active">Menu</a>
+                <a href="about.html" class="nav-link">About</a>
+                <a href="contact.html" class="nav-link">Contact</a>
+            </div>
+            
+            <div class="nav-utils" style="display:flex; gap:15px; align-items:center; margin-left: 20px;">
+                <select id="location-select" onchange="changeLocation(this.value)" style="background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); color:inherit; padding:5px; border-radius:5px;">
+                    <option value="Calabar">📍 Calabar</option>
+                    <option value="Uyo">📍 Uyo</option>
+                </select>
+                <div style="position:relative;">
+                    <input type="text" id="global-search" onkeyup="searchProducts()" placeholder="Search menu..." style="background:rgba(0,0,0,0.5); border:1px solid rgba(255,255,255,0.2); color:inherit; padding:5px 10px; border-radius:20px; width: 140px;">
+                </div>
+                <button onclick="toggleTheme()" style="background:none; border:none; cursor:pointer; font-size:1.2rem;">🌗</button>
+            </div>
+
+            <div class="nav-actions">
+                <div id="nav-login-btn"></div>
+                <div class="cart-icon" onclick="toggleCart()">
+                    🛒 <span class="cart-badge" id="cart-badge">0</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <header class="page-header">
+        <div class="container">
+            <h1>Our Menu</h1>
+            <p>Explore our premium selection of parfaits, authentic shawarma, and refreshing drinks.</p>
+        </div>
+    </header>
+
+    <main class="section container">
+        
+        <div class="menu-controls">
+            <div class="category-filters">
+                <button class="filter-btn active">All</button>
+                <button class="filter-btn">Parfait</button>
+                <button class="filter-btn">Shawarma</button>
+            </div>
+        </div>
+
+        <div class="product-grid">
+            <!-- Shawarmas -->
+            <div class="product-card" data-category="shawarma">
+                <div class="product-img-wrap">
+                    <img src="assets/images/shawarma.png" alt="Regular Shawarma" class="product-img" onerror="this.src='https://salescabal.s3.eu-west-3.amazonaws.com/stores/181349/banner.jpeg'">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">Regular Shawarma</h3>
+                    <p class="product-desc">Classic chicken or beef shawarma with fresh vegetables and signature sauce.</p>
+                    <div class="product-footer">
+                        <div class="product-price">₦4,900</div>
+                        <button class="add-to-cart" onclick="addToCart('Regular Shawarma', 4900, 'assets/images/shawarma.png')">+ Add</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card" data-category="shawarma">
+                <div class="product-img-wrap">
+                    <img src="assets/images/shawarma.png" alt="Special Shawarma" class="product-img" onerror="this.src='https://salescabal.s3.eu-west-3.amazonaws.com/stores/181349/banner.jpeg'">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">Special Shawarma</h3>
+                    <p class="product-desc">Mixed meats with double sausage and extra creamy mayo.</p>
+                    <div class="product-footer">
+                        <div class="product-price">₦5,500</div>
+                        <button class="add-to-cart" onclick="addToCart('Special Shawarma', 5500, 'assets/images/shawarma.png')">+ Add</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card" data-category="shawarma">
+                <div class="product-img-wrap">
+                    <img src="assets/images/shawarma.png" alt="Extra-special Shawarma" class="product-img" onerror="this.src='https://salescabal.s3.eu-west-3.amazonaws.com/stores/181349/banner.jpeg'">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">Extra-special Shawarma</h3>
+                    <p class="product-desc">The ultimate luxury wrap filled to the brim with premium meats and cheese.</p>
+                    <div class="product-footer">
+                        <div class="product-price">₦6,000</div>
+                        <button class="add-to-cart" onclick="addToCart('Extra-special Shawarma', 6000, 'assets/images/shawarma.png')">+ Add</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Parfaits -->
+            <div class="product-card" data-category="parfait">
+                <div class="product-img-wrap">
+                    <img src="assets/images/parfait.png" alt="Mini Parfait" class="product-img">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">Mini Luxury Parfait</h3>
+                    <p class="product-desc">Fresh Greek yoghurt layered with seasonal fruits and crunchy granola.</p>
+                    <div class="product-footer">
+                        <div class="product-price">₦2,500</div>
+                        <button class="add-to-cart" onclick="addToCart('Mini Parfait', 2500, 'assets/images/parfait.png')">+ Add</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card" data-category="parfait">
+                <div class="product-img-wrap">
+                    <img src="assets/images/parfait.png" alt="Regular Parfait" class="product-img">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">Regular Luxury Parfait</h3>
+                    <p class="product-desc">The standard delight. Fresh yogurt, exotic fruits, nuts and honey.</p>
+                    <div class="product-footer">
+                        <div class="product-price">₦3,500</div>
+                        <button class="add-to-cart" onclick="addToCart('Regular Parfait', 3500, 'assets/images/parfait.png')">+ Add</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card" data-category="parfait">
+                <div class="product-img-wrap">
+                    <img src="assets/images/parfait.png" alt="Large Parfait" class="product-img">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">Large Luxury Parfait</h3>
+                    <p class="product-desc">A bountiful serving of our signature layered parfait dessert.</p>
+                    <div class="product-footer">
+                        <div class="product-price">₦5,000</div>
+                        <button class="add-to-cart" onclick="addToCart('Large Parfait', 5000, 'assets/images/parfait.png')">+ Add</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Payment/Checkout Modal -->
+    <div class="modal-overlay" id="checkout-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Secure Checkout</h2>
+                <span class="modal-close" onclick="closeCheckout()">✕</span>
+            </div>
+            
+            <p style="color:var(--color-text-muted); margin-bottom:1.5rem;">Amount Due: <strong style="color:var(--color-primary); font-size:1.5rem;" id="checkout-amount"></strong></p>
+            
+            <div class="payment-methods">
+                <div class="pay-method active" id="pay-wallet" onclick="selectPaymentMethod('wallet')">
+                    <div class="pay-icon">👛</div>
+                    <div>South Wallet</div>
+                </div>
+                <div class="pay-method" id="pay-paystack" onclick="selectPaymentMethod('paystack')">
+                    <div class="pay-icon">💳</div>
+                    <div>Paystack</div>
+                </div>
+                <div class="pay-method" id="pay-transfer" onclick="selectPaymentMethod('transfer')">
+                    <div class="pay-icon">🏦</div>
+                    <div>Transfer</div>
+                </div>
+            </div>
+
+            <form onsubmit="confirmPayment(event)">
+                <button type="submit" id="confirm-payment-btn" class="btn btn-primary btn-block">Pay via Wallet</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- UI Components included via JS -->
+    <div class="cart-drawer-overlay" id="cart-overlay" onclick="toggleCart(false)"></div>
+    <div class="cart-drawer" id="cart-drawer">
+        <div class="cart-header">
+            <h3>Your Order</h3>
+            <div style="cursor:pointer;" onclick="toggleCart(false)">✕</div>
+        </div>
+        <div class="cart-items" id="cart-items"></div>
+        <div class="cart-footer">
+            <div class="cart-total"><span>Total:</span><span id="cart-total-price">₦0.00</span></div>
+            <button class="btn btn-primary btn-block" onclick="openCheckout()">Pay Now</button>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+
+    <a href="https://wa.me/2348028505626" target="_blank" class="floating-whatsapp" style="position: fixed; bottom: 30px; left: 30px; background-color: #25D366; color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; box-shadow: 0 4px 10px rgba(0,0,0,0.3); z-index: 4000; text-decoration: none; transition: 0.3s;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" viewBox="0 0 16 16"><path d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.6 6.6 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592m3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.73.73 0 0 0-.529.247c-.182.198-.691.677-.691 1.654s.71 1.916.81 2.049c.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232"/></svg>
+    </a>
+</body>
+
+</html>
