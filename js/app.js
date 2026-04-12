@@ -404,20 +404,14 @@ document.addEventListener('DOMContentLoaded', () => {
 // Search Filter Logic
 
 const southCatalog = {
-    '2 Liters Exotic Parfait': { price: 33000, img: 'assets/images/parfait.png', desc: 'The ultimate luxury parfait. A monumental 2-liter bucket layered with premium Greek yoghurt, imported exotic berries, golden honey, and artisan granola. Perfect for parties!' },
-    '2 Liter Classic Parfait': { price: 26500, img: 'assets/images/parfait.png', desc: 'A massive 2-liter bowl of our classic blend. Rich yoghurt, fresh seasonal fruits, and crunchy toppings designed for serious cravings.' },
-    '1 Liter Exotic Parfait': { price: 16500, img: 'assets/images/parfait.png', desc: 'An indulgent 1-liter treat saturated with exotic imported fruits and creamy luxury yogurt.' },
-    '1 Liter Classic Parfait': { price: 13500, img: 'assets/images/parfait.png', desc: 'Our signature staple in a heavy 1-liter cup. Packed with natural sweetness and perfectly balanced granola.' },
-    '500ml Exotic Parfait': { price: 8500, img: 'assets/images/parfait.png', desc: 'A dense, premium 500ml cup overflowing with strawberries, blueberries, and kiwi over Greek yoghurt.' },
-    '500ml classic Bowl': { price: 7000, img: 'assets/images/parfait.png', desc: 'A perfectly sized 500ml cup offering the traditional South Cafe fruit and yogurt experience.' },
-    '330ml Exotic Parfait': { price: 6500, img: 'assets/images/parfait.png', desc: 'Our premium exotic toppings packed into a convenient personal 330ml size.' },
-    '330ml Classic Parfait': { price: 5500, img: 'assets/images/parfait.png', desc: 'The perfect on-the-go classic yogurt blend in an easy 330ml grab-and-go cup.' },
+    '2 Liters Exotic Parfait': { price: 33000, img: 'assets/images/parfait.png', desc: 'The ultimate luxury parfait. A monumental 2-liter bucket layered with premium Greek yoghurt, imported exotic berries, golden honey, and artisan granola.' },
     'Extra-special Shawarma': { price: 6000, img: 'assets/images/shawarma.png', desc: 'The ultimate luxury wrap. Filled to the brim with premium smoked meats, double sausage, cheese, and our secret creamy sauce.' },
     'Special Shawarma': { price: 5500, img: 'assets/images/shawarma.png', desc: 'A massive wrap packing mixed chicken and beef cuts, double sausage, and extra creamy mayo.' },
     'Regular Shawarma': { price: 4900, img: 'assets/images/shawarma.png', desc: 'Classic chicken or beef shawarma rolled with fresh vegetables, spices, and our signature South Cafe sauce.' },
-    'Mini Parfait': { price: 2500, img: 'assets/images/parfait.png', desc: 'A quick taste of everything nice. Fresh yoghurt layered with seasonal fruits.' },
-    'Regular Parfait': { price: 3500, img: 'assets/images/parfait.png', desc: 'The standard delight. Fresh yogurt, exotic fruits, nuts and organic honey.' },
-    'Large Parfait': { price: 5000, img: 'assets/images/parfait.png', desc: 'A hearty serving of our signature yogurt paired with sweet fruits and crunchy granola.' }
+    '1 Liter Exotic Parfait': { price: 16500, img: 'assets/images/parfait.png', desc: 'An indulgent 1-liter treat saturated with exotic imported fruits and creamy luxury yogurt.' },
+    'Mini Luxury Parfait': { price: 2500, img: 'assets/images/parfait.png', desc: 'A quick taste of everything nice. Fresh yoghurt layered with seasonal fruits.' },
+    'Large Luxury Parfait': { price: 5000, img: 'assets/images/parfait.png', desc: 'A hearty serving of our signature yogurt paired with sweet fruits and crunchy granola.' },
+    'Regular Luxury Parfait': { price: 3500, img: 'assets/images/parfait.png', desc: 'The standard delight. Fresh yogurt, exotic fruits, nuts and organic honey.' }
 };
 
 window.showProductDetails = function(name) {

@@ -1,4 +1,88 @@
-<!DOCTYPE html>
+import os
+import glob
+import re
+
+os.chdir(r'c:\Users\USER\Desktop\anti-gravity')
+
+# 1. Update CSS File
+css = open('css/styles.css', 'r', encoding='utf-8').read()
+
+# Replace fonts
+css = re.sub(r'(--font-heading:).*?;', r"\1 'Playfair Display', serif;", css)
+css = re.sub(r'(--font-body:).*?;', r"\1 'Poppins', sans-serif;", css)
+
+# Replace variables aggressively
+css_overrides = '''
+:root {
+  --color-primary: #3e2723; 
+  --color-primary-dark: #2a1a17;
+  --color-accent: #d4af37; 
+  --color-bg-dark: #fcf8f2;
+  --color-bg-panel: #ffffff;
+  --color-bg-card: #fdfdfd;
+  --color-text: #2c2c2c;
+  --color-text-muted: #757575;
+  --shadow-card: 0 8px 30px rgba(0, 0, 0, 0.05);
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+[data-theme="dark"] {
+  --color-bg-dark: #121212;
+  --color-bg-panel: #1e1e1e;
+  --color-bg-card: #252525;
+  --color-text: #f5f5f5;
+  --color-text-muted: #a1a1aa;
+}
+
+/* Glassmorphism Classes */
+.glass {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255,255,255,0.2);
+}
+[data-theme="dark"] .glass {
+    background: rgba(30, 30, 30, 0.7);
+    border-color: rgba(255,255,255,0.05);
+}
+
+/* Smooth Image Hover */
+.hover-scale { overflow: hidden; }
+.hover-scale img { transition: var(--transition-smooth); }
+.hover-scale:hover img { transform: scale(1.05); }
+
+'''
+
+# Inject these at the very top of file after the imports
+css = "/* New Coffee Palette Override */\n" + css_overrides + css
+
+open('css/styles.css', 'w', encoding='utf-8').write(css)
+
+# 2. Update JS Catalog
+js = open('js/app.js', 'r', encoding='utf-8').read()
+
+coffee_catalog = '''const southCatalog = {
+    'Artisan Espresso': { price: 2500, img: 'https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?q=80&w=600', desc: 'A double shot of our finest house blend. Rich, dark, and intensely aromatic.' },
+    'Vanilla Caramel Latte': { price: 3500, img: 'https://images.unsplash.com/photo-1557006021-b85faa2bc5e2?q=80&w=600', desc: 'Smooth espresso cut with perfectly steamed milk, organic vanilla bean, and a drizzle of salted caramel.' },
+    'Classic Avocado Toast': { price: 4500, img: 'https://images.unsplash.com/photo-1588137378633-bea104cb1a21?q=80&w=600', desc: 'Smashed organic avocado on toasted sourdough, topped with microgreens and chili flakes.' },
+    'Buttermilk Pancakes': { price: 5000, img: 'https://images.unsplash.com/photo-1554520735-0a6b8b0ce8b0?q=80&w=600', desc: 'A stack of three fluffy buttermilk pancakes served with maple syrup and fresh berries.' },
+    'Gourmet Butter Croissant': { price: 2000, img: 'https://images.unsplash.com/photo-1555507036-ab1f4038808a?q=80&w=600', desc: 'Flaky, buttery, and baked fresh every morning by our artisan pastry chefs.' },
+    'Truffle Fries': { price: 3000, img: 'https://images.unsplash.com/photo-1630431341973-02e1b662ce3b?q=80&w=600', desc: 'Crispy shoestring fries tossed in parmesan cheese and premium white truffle oil.' },
+    'New York Cheesecake': { price: 4000, img: 'https://images.unsplash.com/photo-1533134242443-d4fd215305ad?q=80&w=600', desc: 'A dense, rich slice of classic vanilla cheesecake with a graham cracker crust.' },
+    'Dark Chocolate Tart': { price: 3500, img: 'https://images.unsplash.com/photo-1559598466-f5ff17b9d7a2?q=80&w=600', desc: 'Decadent 70% dark chocolate ganache inside a crisp, buttery tart shell.' }
+};'''
+
+start = js.find('const southCatalog = {')
+end = js.find('window.showProductDetails = function(name)')
+if start != -1 and end != -1:
+    js = js[:start] + coffee_catalog + '\n\n' + js[end:]
+    open('js/app.js', 'w', encoding='utf-8').write(js)
+
+# 3. Rewrite index.html completely
+new_index = '''<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -13,8 +97,7 @@
     <!-- 2. Navigation Bar (Glassmorphic) -->
     <nav class="navbar glass" style="position:fixed; top:0; width:100%; z-index:1000; padding:15px 0;">
         <div class="container" style="display:flex; justify-content:space-between; align-items:center;">
-            <a href="index.html" class="logo-container" style="display:flex; align-items:center; gap:10px; text-decoration:none;">
-                <img src="https://res.cloudinary.com/dhg2oxagk/image/fetch/f_auto,q_auto,w_200/https%3A%2F%2Fdodptt9f4zk9h.cloudfront.net%2Fstores%2F181349%2Fsouthcaf.jpeg" alt="South Cafe" style="height:40px; border-radius:50%;">
+            <a href="index.html" class="logo-container" style="display:flex; align-items:center; gap:10px;">
                 <span class="logo-text" style="font-family:'Playfair Display', serif; font-size:1.8rem; font-weight:700; color:var(--color-primary);">SOUTH CAFE</span>
             </a>
             
@@ -29,7 +112,7 @@
                 <!-- Search wrapper -->
                 <div style="position:relative;">
                     <input type="text" id="global-search" onkeyup="searchProducts()" placeholder="Search..." style="padding:8px 15px; border-radius:20px; border:1px solid #ddd; outline:none; background:rgba(255,255,255,0.5);">
-                    <div id="search-suggestions" style="position:absolute; top:100%; left:0; width:100%; background:var(--color-bg-panel); display:none; max-height:200px; overflow-y:auto; border-radius:8px; box-shadow:var(--shadow-card); z-index:9999; color:#111; border:1px solid rgba(0,0,0,0.1);"></div>
+                    <div id="search-suggestions" style="position:absolute; top:100%; left:0; width:100%; background:var(--color-bg-panel); display:none; max-height:200px; overflow-y:auto; border-radius:8px; box-shadow:var(--shadow-card); z-index:2000;"></div>
                 </div>
                 
                 <div id="nav-login-btn"></div>
@@ -73,56 +156,56 @@
             <p style="color:var(--color-text-muted); margin-bottom:50px;">Select from our premium offerings</p>
             
             <div class="menu-categories" style="display:flex; justify-content:center; gap:20px; margin-bottom:40px;">
-                <button class="btn cat-btn" style="background:var(--color-primary); color:#111; border-radius:30px;" onclick="filterCategory('All', this)">All</button>
-                <button class="btn btn-outline cat-btn" style="border-radius:30px;" onclick="filterCategory('Parfait', this)">Parfait</button>
-                <button class="btn btn-outline cat-btn" style="border-radius:30px;" onclick="filterCategory('Shawarma', this)">Shawarma</button>
+                <button class="btn btn-primary" style="background:var(--color-primary); border-radius:30px;">Coffee</button>
+                <button class="btn btn-outline" style="border-radius:30px;">Breakfast</button>
+                <button class="btn btn-outline" style="border-radius:30px;">Snacks</button>
+                <button class="btn btn-outline" style="border-radius:30px;">Desserts</button>
             </div>
 
-            
             <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:30px; text-align:left;">
                 
-                <div class="product-card glass hover-scale" style="padding:20px; border-radius:15px; cursor:pointer;" onclick="showProductDetails('2 Liters Exotic Parfait')">
-                    <div style="width:100%; height:200px; border-radius:10px; overflow:hidden; margin-bottom:15px; background:#1a1a1a;"><img src="assets/images/parfait.png" style="width:100%; height:100%; object-fit:contain;"></div>
-                    <h3 style="font-size:1.3rem; margin-bottom:5px; font-family:'Playfair Display', serif; color:var(--color-primary);">2 Liters Exotic Parfait</h3>
-                    <p style="color:var(--color-text-muted); font-size:0.9rem; margin-bottom:15px; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;">The ultimate luxury parfait bucket.</p>
+                <!-- Coffee/Item Cards -->
+                <div class="product-card glass hover-scale" style="padding:20px; border-radius:15px; cursor:pointer;" onclick="showProductDetails('Artisan Espresso')">
+                    <div style="width:100%; height:200px; border-radius:10px; overflow:hidden; margin-bottom:15px;"><img src="https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?q=80&w=600" style="width:100%; height:100%; object-fit:cover;"></div>
+                    <h3 style="font-size:1.3rem; margin-bottom:5px; font-family:'Playfair Display', serif;">Artisan Espresso</h3>
+                    <p style="color:var(--color-text-muted); font-size:0.9rem; margin-bottom:15px; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;">A double shot of our finest house blend.</p>
                     <div style="display:flex; justify-content:space-between; align-items:center;">
-                        <span style="font-weight:700; color:var(--color-text); font-size:1.2rem;">₦33,000</span>
-                        <span style="background:var(--color-primary); color:#111; padding:5px 15px; border-radius:5px; font-size:0.9rem;">View</span>
+                        <span style="font-weight:700; color:var(--color-accent); font-size:1.2rem;">₦2,500</span>
+                        <span style="background:var(--color-primary); color:#fff; padding:5px 15px; border-radius:5px; font-size:0.9rem;">View</span>
                     </div>
                 </div>
 
-                <div class="product-card glass hover-scale" style="padding:20px; border-radius:15px; cursor:pointer;" onclick="showProductDetails('Extra-special Shawarma')">
-                    <div style="width:100%; height:200px; border-radius:10px; overflow:hidden; margin-bottom:15px; background:#1a1a1a;"><img src="assets/images/shawarma.png" style="width:100%; height:100%; object-fit:contain;"></div>
-                    <h3 style="font-size:1.3rem; margin-bottom:5px; font-family:'Playfair Display', serif; color:var(--color-primary);">Extra-special Shawarma</h3>
-                    <p style="color:var(--color-text-muted); font-size:0.9rem; margin-bottom:15px; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;">Luxury wrap filled with premium meats & cheese.</p>
+                <div class="product-card glass hover-scale" style="padding:20px; border-radius:15px; cursor:pointer;" onclick="showProductDetails('Vanilla Caramel Latte')">
+                    <div style="width:100%; height:200px; border-radius:10px; overflow:hidden; margin-bottom:15px;"><img src="https://images.unsplash.com/photo-1557006021-b85faa2bc5e2?q=80&w=600" style="width:100%; height:100%; object-fit:cover;"></div>
+                    <h3 style="font-size:1.3rem; margin-bottom:5px; font-family:'Playfair Display', serif;">Vanilla Caramel Latte</h3>
+                    <p style="color:var(--color-text-muted); font-size:0.9rem; margin-bottom:15px; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;">Smooth espresso cut perfectly steamed milk.</p>
                     <div style="display:flex; justify-content:space-between; align-items:center;">
-                        <span style="font-weight:700; color:var(--color-text); font-size:1.2rem;">₦6,000</span>
-                        <span style="background:var(--color-primary); color:#111; padding:5px 15px; border-radius:5px; font-size:0.9rem;">View</span>
+                        <span style="font-weight:700; color:var(--color-accent); font-size:1.2rem;">₦3,500</span>
+                        <span style="background:var(--color-primary); color:#fff; padding:5px 15px; border-radius:5px; font-size:0.9rem;">View</span>
                     </div>
                 </div>
 
-                <div class="product-card glass hover-scale" style="padding:20px; border-radius:15px; cursor:pointer;" onclick="showProductDetails('1 Liter Exotic Parfait')">
-                    <div style="width:100%; height:200px; border-radius:10px; overflow:hidden; margin-bottom:15px; background:#1a1a1a;"><img src="assets/images/parfait.png" style="width:100%; height:100%; object-fit:contain;"></div>
-                    <h3 style="font-size:1.3rem; margin-bottom:5px; font-family:'Playfair Display', serif; color:var(--color-primary);">1 Liter Exotic Parfait</h3>
-                    <p style="color:var(--color-text-muted); font-size:0.9rem; margin-bottom:15px; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;">Exotic imported fruits and creamy luxury yogurt.</p>
+                <div class="product-card glass hover-scale" style="padding:20px; border-radius:15px; cursor:pointer;" onclick="showProductDetails('Classic Avocado Toast')">
+                    <div style="width:100%; height:200px; border-radius:10px; overflow:hidden; margin-bottom:15px;"><img src="https://images.unsplash.com/photo-1588137378633-bea104cb1a21?q=80&w=600" style="width:100%; height:100%; object-fit:cover;"></div>
+                    <h3 style="font-size:1.3rem; margin-bottom:5px; font-family:'Playfair Display', serif;">Classic Avocado Toast</h3>
+                    <p style="color:var(--color-text-muted); font-size:0.9rem; margin-bottom:15px; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;">Smashed organic avocado on sourdough.</p>
                     <div style="display:flex; justify-content:space-between; align-items:center;">
-                        <span style="font-weight:700; color:var(--color-text); font-size:1.2rem;">₦16,500</span>
-                        <span style="background:var(--color-primary); color:#111; padding:5px 15px; border-radius:5px; font-size:0.9rem;">View</span>
+                        <span style="font-weight:700; color:var(--color-accent); font-size:1.2rem;">₦4,500</span>
+                        <span style="background:var(--color-primary); color:#fff; padding:5px 15px; border-radius:5px; font-size:0.9rem;">View</span>
                     </div>
                 </div>
                 
-                <div class="product-card glass hover-scale" style="padding:20px; border-radius:15px; cursor:pointer;" onclick="showProductDetails('Regular Shawarma')">
-                    <div style="width:100%; height:200px; border-radius:10px; overflow:hidden; margin-bottom:15px; background:#1a1a1a;"><img src="assets/images/shawarma.png" style="width:100%; height:100%; object-fit:contain;"></div>
-                    <h3 style="font-size:1.3rem; margin-bottom:5px; font-family:'Playfair Display', serif; color:var(--color-primary);">Regular Shawarma</h3>
-                    <p style="color:var(--color-text-muted); font-size:0.9rem; margin-bottom:15px; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;">Classic rolled with fresh vegetables and spices.</p>
+                <div class="product-card glass hover-scale" style="padding:20px; border-radius:15px; cursor:pointer;" onclick="showProductDetails('New York Cheesecake')">
+                    <div style="width:100%; height:200px; border-radius:10px; overflow:hidden; margin-bottom:15px;"><img src="https://images.unsplash.com/photo-1533134242443-d4fd215305ad?q=80&w=600" style="width:100%; height:100%; object-fit:cover;"></div>
+                    <h3 style="font-size:1.3rem; margin-bottom:5px; font-family:'Playfair Display', serif;">New York Cheesecake</h3>
+                    <p style="color:var(--color-text-muted); font-size:0.9rem; margin-bottom:15px; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;">Dense, rich slice of classic vanilla cheesecake.</p>
                     <div style="display:flex; justify-content:space-between; align-items:center;">
-                        <span style="font-weight:700; color:var(--color-text); font-size:1.2rem;">₦4,900</span>
-                        <span style="background:var(--color-primary); color:#111; padding:5px 15px; border-radius:5px; font-size:0.9rem;">View</span>
+                        <span style="font-weight:700; color:var(--color-accent); font-size:1.2rem;">₦4,000</span>
+                        <span style="background:var(--color-primary); color:#fff; padding:5px 15px; border-radius:5px; font-size:0.9rem;">View</span>
                     </div>
                 </div>
 
             </div>
-
         </div>
     </section>
 
@@ -169,11 +252,7 @@
         <div class="container" style="display:flex; flex-wrap:wrap; gap:50px;">
             <div style="flex:1; min-width:300px;">
                 <h2 style="font-size:2.5rem; color:var(--color-primary); margin-bottom:20px; font-family:'Playfair Display', serif;">Visit Us</h2>
-                <div style="margin-bottom:20px; display:inline-flex; border: 1px solid var(--color-primary); border-radius:30px; overflow:hidden;">
-                    <button id="loc-btn-calabar" onclick="setLocation('Calabar')" class="btn" style="background:var(--color-primary); color:#111; border-radius:0; padding:10px 20px; border:none;">Calabar</button>
-                    <button id="loc-btn-uyo" onclick="setLocation('Uyo')" class="btn" style="background:transparent; color:var(--color-text); border-radius:0; padding:10px 20px; border:none;">Uyo</button>
-                </div>
-                <p id="contact-address" style="color:var(--color-text-muted); margin-bottom:10px;">📍 14 Luxury Avenue, Calabar</p>
+                <p style="color:var(--color-text-muted); margin-bottom:10px;">📍 14 Luxury Avenue, Calabar</p>
                 <p style="color:var(--color-text-muted); margin-bottom:10px;">📞 +234 802 850 5626</p>
                 <p style="color:var(--color-text-muted); margin-bottom:30px;">📧 hello@southcafe.ng</p>
                 <div style="width:100%; height:250px; background:#e0e0e0; border-radius:10px; display:flex; align-items:center; justify-content:center; color:#666;">[Embedded Google Map UI]</div>
@@ -251,9 +330,9 @@
                 <span onclick="closeProductDetails()" style="position:absolute; top:10px; right:10px; background:rgba(0,0,0,0.5); color:#fff; width:30px; height:30px; display:flex; align-items:center; justify-content:center; border-radius:50%; cursor:pointer;">✕</span>
             </div>
             <div style="padding: 2rem;">
-                <h2 id="detail-title" style="color:#fff; margin-bottom:10px; font-family:'Playfair Display', serif;"></h2>
-                <div id="detail-price" style="font-size:1.2rem; font-weight:bold; margin-bottom:15px; color:var(--color-primary);"></div>
-                <p id="detail-desc" style="color:#e0e0e0; line-height:1.6; margin-bottom:20px; font-family:'Poppins', sans-serif;"></p>
+                <h2 id="detail-title" style="color:var(--color-primary); margin-bottom:10px; font-family:'Playfair Display', serif;"></h2>
+                <div id="detail-price" style="font-size:1.2rem; font-weight:bold; margin-bottom:15px; color:var(--color-accent);"></div>
+                <p id="detail-desc" style="color:var(--color-text-muted); line-height:1.6; margin-bottom:20px; font-family:'Poppins', sans-serif;"></p>
                 <button id="detail-add-btn" class="btn btn-primary btn-block">Add to Cart</button>
             </div>
         </div>
@@ -265,40 +344,8 @@
     </a>
 
     <script src="js/app.js"></script>
-
-    <script>
-        function filterCategory(cat, btnElement) {
-            // Update Active button state
-            document.querySelectorAll('.cat-btn').forEach(btn => {
-                btn.style.background = 'transparent';
-                btn.style.color = 'var(--color-text)';
-            });
-            btnElement.style.background = 'var(--color-primary)';
-            btnElement.style.color = '#111';
-            
-            // Filter
-            const cards = document.querySelectorAll('.product-card');
-            cards.forEach(card => {
-                const title = card.querySelector('h3').innerText.toLowerCase();
-                if(cat === 'All') {
-                    card.style.display = 'block';
-                } else if (title.includes(cat.toLowerCase())) {
-                    card.style.display = 'block';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-        }
-        
-        function setLocation(loc) {
-            document.getElementById('loc-btn-calabar').style.background = loc === 'Calabar' ? 'var(--color-primary)' : 'transparent';
-            document.getElementById('loc-btn-calabar').style.color = loc === 'Calabar' ? '#111' : 'var(--color-text)';
-            document.getElementById('loc-btn-uyo').style.background = loc === 'Uyo' ? 'var(--color-primary)' : 'transparent';
-            document.getElementById('loc-btn-uyo').style.color = loc === 'Uyo' ? '#111' : 'var(--color-text)';
-            
-            document.getElementById('contact-address').innerText = loc === 'Calabar' ? '📍 14 Luxury Avenue, Calabar' : '📍 22 Premium Lane, Uyo';
-        }
-    </script>
 </body>
-
 </html>
+'''
+
+open('index.html', 'w', encoding='utf-8').write(new_index)

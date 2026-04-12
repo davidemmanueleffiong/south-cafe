@@ -1,4 +1,11 @@
+import os
 
+os.chdir(r'c:\Users\USER\Desktop\anti-gravity')
+
+# We are going to entirely rewrite styles.css to clear out the cascading duplicates
+# and correctly set up the Dark Theme coffee aesthetic without hiding the navbar.
+
+clean_css = '''
 :root {
   --color-primary: #d4af37; 
   --color-primary-dark: #b5952f;
@@ -177,3 +184,6 @@ img { max-width: 100%; display: block; border-radius: 8px; }
     .product-card { padding: 15px; }
     .ai-chat-window { width: 90vw; right: 5vw; }
 }
+'''
+
+open('css/styles.css', 'w', encoding='utf-8').write(clean_css)
