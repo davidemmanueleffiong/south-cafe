@@ -40,22 +40,17 @@ if (window.location.search.includes('newuser=true')) {
 const loginBtn = document.getElementById('nav-login-btn');
 
 function updateAuthUI() {
-    if(loginBtn) {
-        if (currentUser) {
-            const formattedBalance = new Intl.NumberFormat('en-NG', { style: 'currency', currency: 'NGN' }).format(walletBalance);
-            loginBtn.innerHTML = `
-                <a href="wallet.html" class="wallet-badge">👛 ${formattedBalance}</a>
-                <span style="font-size:0.85rem; margin-left:15px; color:var(--color-primary);">Hi, ${currentUser}</span>
-                <span style="cursor:pointer; margin-left:10px; color:#a1a1aa; font-size:0.8rem;" id="logout-btn">(Logout)</span>
-            `;
-            document.getElementById('logout-btn')?.addEventListener('click', () => {
-                localStorage.removeItem('southcafe_user');
-                showToast("Logged out successfully.");
-                setTimeout(() => window.location.reload(), 1000);
-            });
-        } else {
-            loginBtn.innerHTML = `<a href="login.html" class="btn btn-outline" style="padding: 0.5rem 1.5rem">Login</a>`;
-        }
+    const loginBtn = document.getElementById('nav-login-btn');
+    if(!loginBtn) return;
+    
+    if (currentUser) {
+        const formattedBalance = new Intl.NumberFormat('en-NG', { style: 'currency', currency: 'NGN' }).format(walletBalance);
+        loginBtn.innerHTML = `
+            <a href="wallet.html" class="wallet-badge" style="text-decoration:none;">👛 ${formattedBalance}</a>
+            <a href="settings.html" class="btn btn-outline" style="padding: 5px 15px; margin-left:10px; border-color:rgba(255,255,255,0.2); color:inherit; text-decoration:none;">⚙️ Settings</a>
+        `;
+    } else {
+        loginBtn.innerHTML = `<a href="login.html" class="btn btn-outline" style="padding: 5px 15px;">Login</a>`;
     }
 }
 updateAuthUI();
@@ -233,35 +228,76 @@ window.sendAIMessage = function() {
 }
 
 // UI AI Profiler
-window.startVoiceAI = function() {
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    if(!SpeechRecognition) {
-        showToast("Voice AI not supported in your current browser.", "error");
-        return;
-    }
-    const recognition = new SpeechRecognition();
-    recognition.lang = 'en-US';
-    recognition.interimResults = false;
+// WhatsApp Style AI Voice Logic
+let aiRecording = false;
+let aiRecordTimer;
+let aiRecordSeconds = 0;
+let aiRecognition;
+
+window.toggleVoiceAI = function() {
+    const input = document.getElementById('ai-message-input');
+    const micBtn = document.querySelector('.ai-mic');
     
+    if(!aiRecording) {
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        if(!SpeechRecognition) return showToast("Voice AI not supported.", "error"); // Ignore if not supported
+        
+        aiRecognition = new SpeechRecognition();
+        aiRecognition.lang = 'en-US';
+        aiRecognition.interimResults = true;
+        
+        aiRecording = true;
+        aiRecordSeconds = 0;
+        micBtn.innerHTML = "🛑";
+        micBtn.style.color = "#ff4444";
+        input.readOnly = true;
+        input.value = "Recording... 00:00";
+        input.style.color = "#ff4444";
+        
+        aiRecordTimer = setInterval(() => {
+            aiRecordSeconds++;
+            const mins = Math.floor(aiRecordSeconds / 60).toString().padStart(2, '0');
+            const secs = (aiRecordSeconds % 60).toString().padStart(2, '0');
+            input.value = `Recording... ${mins}:${secs}`;
+        }, 1000);
+        
+        let finalTranscript = "";
+        aiRecognition.onresult = function(event) {
+            finalTranscript = Array.from(event.results).map(res => res[0].transcript).join('');
+        };
+        
+        aiRecognition.onend = function() {
+            if(aiRecording) { // Ended naturally due to silence pausing
+                stopVoiceAI(finalTranscript);
+            }
+        };
+        
+        aiRecognition.start();
+    } else {
+        // Manually Stop
+        aiRecognition.stop(); 
+        // Note: calling stop triggers onend, but we can actively clean it up here to be safe
+    }
+}
+
+function stopVoiceAI(transcript) {
+    aiRecording = false;
+    clearInterval(aiRecordTimer);
+    const micBtn = document.querySelector('.ai-mic');
     const input = document.getElementById('ai-message-input');
     
-    recognition.onstart = function() {
-        input.placeholder = "Listening... Speak now 🎤";
-    };
+    micBtn.innerHTML = "🎤";
+    micBtn.style.color = "inherit";
+    input.readOnly = false;
+    input.style.color = "inherit";
     
-    recognition.onsuccess = function(event) {
-        const transcript = event.results[0][0].transcript;
+    if(transcript) {
         input.value = transcript;
-        input.placeholder = "Type here...";
-        sendAIMessage(); // automatically send
-    };
-    
-    recognition.onerror = function(event) {
-        input.placeholder = "Type here...";
-        showToast("Voice recognition error: " + event.error, "error");
-    };
-    
-    recognition.start();
+        input.placeholder = "Type here... (Ready to send)";
+    } else {
+        input.value = "";
+        input.placeholder = "Failed to transcribe. Type here...";
+    }
 }
 
 window.runAIProfiler = function() {
@@ -366,28 +402,73 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 // Search Filter Logic
+
+const southCatalog = {
+    '2 Liters Exotic Parfait': { price: 33000, img: 'assets/images/parfait.png', desc: 'The ultimate luxury parfait. A monumental 2-liter bucket layered with premium Greek yoghurt, imported exotic berries, golden honey, and artisan granola. Perfect for parties!' },
+    '2 Liter Classic Parfait': { price: 26500, img: 'assets/images/parfait.png', desc: 'A massive 2-liter bowl of our classic blend. Rich yoghurt, fresh seasonal fruits, and crunchy toppings designed for serious cravings.' },
+    '1 Liter Exotic Parfait': { price: 16500, img: 'assets/images/parfait.png', desc: 'An indulgent 1-liter treat saturated with exotic imported fruits and creamy luxury yogurt.' },
+    '1 Liter Classic Parfait': { price: 13500, img: 'assets/images/parfait.png', desc: 'Our signature staple in a heavy 1-liter cup. Packed with natural sweetness and perfectly balanced granola.' },
+    '500ml Exotic Parfait': { price: 8500, img: 'assets/images/parfait.png', desc: 'A dense, premium 500ml cup overflowing with strawberries, blueberries, and kiwi over Greek yoghurt.' },
+    '500ml classic Bowl': { price: 7000, img: 'assets/images/parfait.png', desc: 'A perfectly sized 500ml cup offering the traditional South Cafe fruit and yogurt experience.' },
+    '330ml Exotic Parfait': { price: 6500, img: 'assets/images/parfait.png', desc: 'Our premium exotic toppings packed into a convenient personal 330ml size.' },
+    '330ml Classic Parfait': { price: 5500, img: 'assets/images/parfait.png', desc: 'The perfect on-the-go classic yogurt blend in an easy 330ml grab-and-go cup.' },
+    'Extra-special Shawarma': { price: 6000, img: 'assets/images/shawarma.png', desc: 'The ultimate luxury wrap. Filled to the brim with premium smoked meats, double sausage, cheese, and our secret creamy sauce.' },
+    'Special Shawarma': { price: 5500, img: 'assets/images/shawarma.png', desc: 'A massive wrap packing mixed chicken and beef cuts, double sausage, and extra creamy mayo.' },
+    'Regular Shawarma': { price: 4900, img: 'assets/images/shawarma.png', desc: 'Classic chicken or beef shawarma rolled with fresh vegetables, spices, and our signature South Cafe sauce.' },
+    'Mini Parfait': { price: 2500, img: 'assets/images/parfait.png', desc: 'A quick taste of everything nice. Fresh yoghurt layered with seasonal fruits.' },
+    'Regular Parfait': { price: 3500, img: 'assets/images/parfait.png', desc: 'The standard delight. Fresh yogurt, exotic fruits, nuts and organic honey.' },
+    'Large Parfait': { price: 5000, img: 'assets/images/parfait.png', desc: 'A hearty serving of our signature yogurt paired with sweet fruits and crunchy granola.' }
+};
+
+window.showProductDetails = function(name) {
+    const detail = southCatalog[name];
+    if(!detail) return;
+    
+    document.getElementById('detail-img').src = detail.img;
+    document.getElementById('detail-title').innerText = name;
+    document.getElementById('detail-desc').innerText = detail.desc;
+    document.getElementById('detail-price').innerText = new Intl.NumberFormat('en-NG', { style: 'currency', currency: 'NGN' }).format(detail.price);
+    
+    document.getElementById('detail-add-btn').onclick = function() {
+        addToCart(name, detail.price, detail.img);
+        closeProductDetails();
+    };
+    
+    document.getElementById('product-detail-modal').style.display = 'flex';
+}
+
+window.closeProductDetails = function() {
+    document.getElementById('product-detail-modal').style.display = 'none';
+}
+
 window.searchProducts = function() {
     const val = document.getElementById('global-search').value.toLowerCase();
-    const products = document.querySelectorAll('.product-card');
+    const sugBox = document.getElementById('search-suggestions');
+    if(!sugBox) return; 
     
-    if(products.length === 0) {
-        if(window.event && window.event.key === 'Enter') {
-            window.location.href = 'menu.html?search=' + encodeURIComponent(val);
+    if(!val) { sugBox.style.display = 'none'; return; }
+    
+    sugBox.innerHTML = '';
+    let matches = 0;
+    
+    for (const [name, data] of Object.entries(southCatalog)) {
+        if(name.toLowerCase().includes(val)) {
+            matches++;
+            const priceFmt = new Intl.NumberFormat('en-NG', { style: 'currency', currency: 'NGN' }).format(data.price);
+            sugBox.innerHTML += `
+                <div class="suggestion-item" onclick="document.getElementById('global-search').value=''; document.getElementById('search-suggestions').style.display='none'; showProductDetails('${name}')">
+                    <img src="${data.img}" class="suggestion-img">
+                    <div class="suggestion-info">
+                        <div class="suggestion-title">${name}</div>
+                        <div class="suggestion-price">${priceFmt}</div>
+                    </div>
+                </div>
+            `;
         }
-        return;
     }
     
-    // De-activate filter buttons if user searches
-    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-    
-    products.forEach(product => {
-        const title = product.querySelector('.product-title').innerText.toLowerCase();
-        if(title.includes(val)) {
-            product.style.display = 'block';
-        } else {
-            product.style.display = 'none';
-        }
-    });
+    if(matches > 0) { sugBox.style.display = 'block'; } 
+    else { sugBox.style.display = 'none'; }
 }
 
 // Intercept search queries from redirects
