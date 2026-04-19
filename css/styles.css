@@ -863,8 +863,9 @@ textarea.form-input {
 
   /* Page Headers shift down to avoid navbar collision */
   .page-header {
-    padding-top: 25rem !important;
-    padding-bottom: 4rem;
+    margin-top: 250px;
+    padding-top: 5rem !important;
+    padding-bottom: 3rem;
   }
 
   /* Responsive Grids */
@@ -876,6 +877,11 @@ textarea.form-input {
 
   .two-col-grid>div {
     width: 100%;
+  }
+
+  .contact-card {
+    padding: 1.5rem !important;
+    margin: 0 -10px; /* Slight bleed to maximize space on tiny screens */
   }
 }
 
@@ -1012,6 +1018,13 @@ textarea.form-input {
   grid-template-columns: 1fr 1fr;
   gap: 4rem;
   align-items: center;
+}
+
+.contact-card {
+  background: var(--color-bg-panel);
+  padding: 3rem;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 /* Light Theme Settings */
