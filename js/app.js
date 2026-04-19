@@ -404,6 +404,7 @@ document.addEventListener('DOMContentLoaded', () => {
 // Search Filter Logic
 
 const southCatalog = {
+    'The Golden Bean Roast': { price: 4000, img: 'https://images.unsplash.com/photo-1497935586351-b67a49e012bf?q=80&w=600', desc: 'Exclusive imported espresso infused with rich chocolate notes.' },
     '2 Liters Exotic Parfait': { price: 33000, img: 'assets/images/parfait.png', desc: 'The ultimate luxury parfait. A monumental 2-liter bucket layered with premium Greek yoghurt, imported exotic berries, golden honey, and artisan granola.' },
     'Extra-special Shawarma': { price: 6000, img: 'assets/images/shawarma.png', desc: 'The ultimate luxury wrap. Filled to the brim with premium smoked meats, double sausage, cheese, and our secret creamy sauce.' },
     'Special Shawarma': { price: 5500, img: 'assets/images/shawarma.png', desc: 'A massive wrap packing mixed chicken and beef cuts, double sausage, and extra creamy mayo.' },

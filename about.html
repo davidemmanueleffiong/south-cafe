@@ -1,18 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="South Cafe sets the standard for premium dining, specializing in authentic shawarma, luxury parfaits, and refreshing fruit drinks. Experience the best of Calabar and Uyo with our world-class delivery and modern dining ecosystem.">
+    <meta name="description"
+        content="South Cafe sets the standard for premium dining, specializing in authentic shawarma, luxury parfaits, and refreshing fruit drinks. Experience the best of Calabar and Uyo with our world-class delivery and modern dining ecosystem.">
     <title>About Us | South Cafe</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Outfit:wght@400;600;700&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="css/styles.css">
 </head>
+
 <body>
     <nav class="navbar">
         <div class="container">
             <a href="index.html" class="logo-container">
-                <img src="https://res.cloudinary.com/dhg2oxagk/image/fetch/f_auto,q_auto,w_200/https%3A%2F%2Fdodptt9f4zk9h.cloudfront.net%2Fstores%2F181349%2Fsouthcaf.jpeg" alt="South Cafe" class="logo-img">
+                <img src="https://res.cloudinary.com/dhg2oxagk/image/fetch/f_auto,q_auto,w_200/https%3A%2F%2Fdodptt9f4zk9h.cloudfront.net%2Fstores%2F181349%2Fsouthcaf.jpeg"
+                    alt="South Cafe" class="logo-img">
                 <span class="logo-text">SOUTH CAFE</span>
             </a>
             <div class="nav-links">
@@ -21,17 +27,20 @@
                 <a href="about.html" class="nav-link active">About</a>
                 <a href="contact.html" class="nav-link">Contact</a>
             </div>
-            
+
             <div class="nav-utils" style="display:flex; gap:15px; align-items:center; margin-left: 20px;">
-                <select id="location-select" onchange="changeLocation(this.value)" style="background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); color:inherit; padding:5px; border-radius:5px;">
+                <select id="location-select" onchange="changeLocation(this.value)"
+                    style="background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); color:inherit; padding:5px; border-radius:5px;">
                     <option value="Calabar">📍 Calabar</option>
                     <option value="Uyo">📍 Uyo</option>
                 </select>
                 <div style="position:relative;">
-                    <input type="text" id="global-search" onkeyup="searchProducts()" placeholder="Search menu..." style="background:rgba(0,0,0,0.5); border:1px solid rgba(255,255,255,0.2); color:inherit; padding:5px 10px; border-radius:20px; width: 140px;">
+                    <input type="text" id="global-search" onkeyup="searchProducts()" placeholder="Search menu..."
+                        style="background:rgba(0,0,0,0.5); border:1px solid rgba(255,255,255,0.2); color:inherit; padding:5px 10px; border-radius:20px; width: 140px;">
                 </div>
                 <div id="search-suggestions"></div>
-                <button onclick="toggleTheme()" style="background:none; border:none; cursor:pointer; font-size:1.2rem;">🌗</button>
+                <button onclick="toggleTheme()"
+                    style="background:none; border:none; cursor:pointer; font-size:1.2rem;">🌗</button>
             </div>
 
             <div class="nav-actions">
@@ -53,13 +62,19 @@
     <main class="section container">
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;">
             <div>
-                <h2 style="color:var(--color-primary); margin-bottom: 1.5rem; font-size: 2.5rem;">Igniting Taste Buds in Calabar</h2>
-                <p style="margin-bottom: 1rem; color:var(--color-text-muted); font-size: 1.1rem;">South Cafe started with a simple belief: that luxury dining and affordability can exist together. We are known for our premium parfaits and signature shawarmas.</p>
-                <p style="margin-bottom: 1rem; color:var(--color-text-muted); font-size: 1.1rem;">We don't cut corners. From our freshly sourced fruits to our specially marinated meats, every item is crafted to give you an experience worth remembering.</p>
+                <h2 style="color:var(--color-primary); margin-bottom: 1.5rem; font-size: 2.5rem;">Igniting Taste Buds in
+                    Calabar</h2>
+                <p style="margin-bottom: 1rem; color:var(--color-text-muted); font-size: 1.1rem;">South Cafe started
+                    with a simple belief: that luxury dining and affordability can exist together. We are known for our
+                    premium parfaits and signature shawarmas.</p>
+                <p style="margin-bottom: 1rem; color:var(--color-text-muted); font-size: 1.1rem;">We don't cut corners.
+                    From our freshly sourced fruits to our specially marinated meats, every item is crafted to give you
+                    an experience worth remembering.</p>
                 <a href="menu.html" class="btn btn-primary" style="margin-top: 1.5rem;">Explore Menu</a>
             </div>
             <div>
-                <img src="assets/images/hero.png" alt="About South Cafe" style="box-shadow: var(--shadow-card);" onerror="this.src='https://salescabal.s3.eu-west-3.amazonaws.com/stores/181349/banner.jpeg'">
+                <img src="assets/images/hero.png" alt="About South Cafe" style="box-shadow: var(--shadow-card);"
+                    onerror="this.src='https://salescabal.s3.eu-west-3.amazonaws.com/stores/181349/banner.jpeg'">
             </div>
         </div>
     </main>
@@ -71,9 +86,10 @@
                 <h2>Secure Checkout</h2>
                 <span class="modal-close" onclick="closeCheckout()">✕</span>
             </div>
-            
-            <p style="color:var(--color-text-muted); margin-bottom:1.5rem;">Amount Due: <strong style="color:var(--color-primary); font-size:1.5rem;" id="checkout-amount"></strong></p>
-            
+
+            <p style="color:var(--color-text-muted); margin-bottom:1.5rem;">Amount Due: <strong
+                    style="color:var(--color-primary); font-size:1.5rem;" id="checkout-amount"></strong></p>
+
             <div class="payment-methods">
                 <div class="pay-method active" id="pay-wallet" onclick="selectPaymentMethod('wallet')">
                     <div class="pay-icon">👛</div>
@@ -94,7 +110,7 @@
             </form>
         </div>
     </div>
-    
+
     <!-- Cart Drawer Component -->
     <div class="cart-drawer-overlay" id="cart-overlay" onclick="toggleCart(false)"></div>
     <div class="cart-drawer" id="cart-drawer">
@@ -124,7 +140,9 @@
             </div>
             <div class="ai-input-area">
                 <input type="text" id="ai-message-input" class="ai-input" placeholder="Type here...">
-                <button class="ai-mic" onclick="toggleVoiceAI()" style="background:transparent; border:none; font-size:1.5rem; cursor:pointer;" title="Hold to Speak">🎤</button>
+                <button class="ai-mic" onclick="toggleVoiceAI()"
+                    style="background:transparent; border:none; font-size:1.5rem; cursor:pointer;"
+                    title="Hold to Speak">🎤</button>
                 <button class="ai-send" onclick="sendAIMessage()">➤</button>
             </div>
         </div>
@@ -133,19 +151,27 @@
 
     <script src="js/app.js"></script>
 
-    <a href="https://wa.me/2348028505626" target="_blank" class="floating-whatsapp" style="position: fixed; bottom: 30px; left: 30px; background-color: #25D366; color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; box-shadow: 0 4px 10px rgba(0,0,0,0.3); z-index: 4000; text-decoration: none; transition: 0.3s;">
-        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" viewBox="0 0 16 16"><path d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.6 6.6 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592m3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.73.73 0 0 0-.529.247c-.182.198-.691.677-.691 1.654s.71 1.916.81 2.049c.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232"/></svg>
+    <a href="https://wa.me/2348028505626" target="_blank" class="floating-whatsapp"
+        style="position: fixed; bottom: 30px; left: 30px; background-color: #25D366; color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; box-shadow: 0 4px 10px rgba(0,0,0,0.3); z-index: 4000; text-decoration: none; transition: 0.3s;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" viewBox="0 0 16 16">
+            <path
+                d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.6 6.6 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592m3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.73.73 0 0 0-.529.247c-.182.198-.691.677-.691 1.654s.71 1.916.81 2.049c.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232" />
+        </svg>
     </a>
 
-    <div class="modal-overlay" id="product-detail-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:9000; align-items:center; justify-content:center;">
-        <div class="modal-content" style="background:var(--color-bg-panel); border-radius:12px; max-width:400px; width:95%; overflow:hidden;">
+    <div class="modal-overlay" id="product-detail-modal"
+        style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:9000; align-items:center; justify-content:center;">
+        <div class="modal-content"
+            style="background:var(--color-bg-panel); border-radius:12px; max-width:400px; width:95%; overflow:hidden;">
             <div style="position:relative;">
                 <img id="detail-img" src="" style="width:100%; height:250px; object-fit:cover;">
-                <span onclick="closeProductDetails()" style="position:absolute; top:10px; right:10px; background:rgba(0,0,0,0.5); color:#fff; width:30px; height:30px; display:flex; align-items:center; justify-content:center; border-radius:50%; cursor:pointer;">✕</span>
+                <span onclick="closeProductDetails()"
+                    style="position:absolute; top:10px; right:10px; background:rgba(0,0,0,0.5); color:#fff; width:30px; height:30px; display:flex; align-items:center; justify-content:center; border-radius:50%; cursor:pointer;">✕</span>
             </div>
             <div style="padding: 2rem;">
                 <h2 id="detail-title" style="color:var(--color-primary); margin-bottom:10px;"></h2>
-                <div id="detail-price" style="font-size:1.2rem; font-weight:bold; margin-bottom:15px; color:var(--color-text);"></div>
+                <div id="detail-price"
+                    style="font-size:1.2rem; font-weight:bold; margin-bottom:15px; color:var(--color-text);"></div>
                 <p id="detail-desc" style="color:var(--color-text-muted); line-height:1.6; margin-bottom:20px;"></p>
                 <button id="detail-add-btn" class="btn btn-primary btn-block">Add to Cart</button>
             </div>

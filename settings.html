@@ -25,31 +25,30 @@
         </div>
     </nav>
 
-    <div class="container" style="max-width: 600px; padding: 4rem 15px;">
-        <div style="background: var(--color-bg-panel); padding: 2rem; border-radius: 12px; box-shadow: var(--shadow-card); border: 1px solid rgba(255,255,255,0.05);">
-            <h1 style="font-size: 2rem; margin-bottom: 2rem; color: var(--color-primary);">Account Settings</h1>
-            
-            <div style="margin-bottom: 2rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 2rem;">
-                <h3 style="margin-bottom: 15px;">Profile Details</h3>
-                <p style="color:var(--color-text-muted); margin-bottom:10px;">Logged in as: <strong id="settings-username" style="color:var(--color-text);">User</strong></p>
-            </div>
+    <div class="auth-container" style="max-width: 600px;">
+        <div class="auth-header" style="margin-bottom:2rem; text-align:center;">
+            <h2>Account Settings</h2>
+        </div>
+        
+        <div style="margin-bottom: 2rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 2rem; text-align:center;">
+            <p style="color:var(--color-text-muted); margin-bottom:10px;">Logged in as: <strong id="settings-username" style="color:var(--color-text);">User</strong></p>
+        </div>
 
-            <div style="display:flex; flex-direction:column; gap:15px;">
-                <button class="btn btn-outline" onclick="logoutAccount()" style="text-align:left; font-weight:600; padding:15px; border-color:transparent; background:rgba(0,0,0,0.4);">🚪 Log Out</button>
-                <button class="btn btn-outline" onclick="triggerDelete()" style="text-align:left; font-weight:600; color:#ff4444; border-color:#ff4444; padding:15px;">⚠️ Delete Account</button>
-            </div>
+        <div style="display:flex; flex-direction:column; gap:15px;">
+            <button class="btn btn-outline" onclick="logoutAccount()" style="text-align:left; font-weight:600; padding:15px; border-color:transparent; background:rgba(0,0,0,0.4);">🚪 Log Out</button>
+            <button class="btn btn-outline" onclick="triggerDelete()" style="text-align:left; font-weight:600; color:#ff4444; border-color:#ff4444; padding:15px;">⚠️ Delete Account</button>
         </div>
     </div>
 
     <!-- Delete Confirmation Modal -->
-    <div class="modal-overlay" id="delete-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:9000; align-items:center; justify-content:center;">
+    <div class="modal-overlay" id="delete-modal">
         <div class="modal-content" style="background:var(--color-bg-panel); border-radius:12px; max-width:400px; width:95%; overflow:hidden; padding: 2rem; text-align:center;">
             <div style="font-size: 3rem; margin-bottom: 1rem;">⚠️</div>
             <h2 style="color:#ff4444; margin-bottom:10px;">Are you sure?</h2>
             <p style="color:var(--color-text-muted); margin-bottom:25px;">Are you sure you want to delete your account? This action is permanent and cannot be undone.</p>
             
             <div style="display:flex; gap: 15px;">
-                <button class="btn btn-outline" style="flex:1; border-color:var(--color-text-muted); color:var(--color-text-muted);" onclick="document.getElementById('delete-modal').style.display='none'">No, cancel</button>
+                <button class="btn btn-outline" style="flex:1; border-color:var(--color-text-muted); color:var(--color-text-muted);" onclick="document.getElementById('delete-modal').classList.remove('active')">No, cancel</button>
                 <button class="btn btn-primary" style="flex:1; background:#ff4444; border-color:#ff4444;" onclick="confirmDeleteAccount()">Yes, delete it</button>
             </div>
         </div>
@@ -69,12 +68,12 @@
         }
 
         function triggerDelete() {
-            document.getElementById('delete-modal').style.display = 'flex';
+            document.getElementById('delete-modal').classList.add('active');
         }
 
         function confirmDeleteAccount() {
             localStorage.removeItem('southcafe_user');
-            localStorage.removeItem('south_wallet_balance'); // Clear associated records securely
+            localStorage.removeItem('southcafe_wallet'); // Clear associated records securely
             alert('Account successfully deleted.');
             window.location.href = 'index.html';
         }

@@ -40,6 +40,14 @@
                 <label class="form-label">Password</label>
                 <input type="password" class="form-input" required placeholder="••••••••">
             </div>
+            <div class="form-group">
+                <label class="form-label">Location</label>
+                <select class="form-input" id="location" required>
+                    <option value="" disabled selected>Select your city...</option>
+                    <option value="Calabar">Calabar</option>
+                    <option value="Uyo">Uyo</option>
+                </select>
+            </div>
             <button type="submit" class="btn btn-primary btn-block">Sign Up</button>
         </form>
         <div class="form-footer">
@@ -51,8 +59,10 @@
         document.getElementById('signup-form').addEventListener('submit', function(e) {
             e.preventDefault();
             const name = document.getElementById('name').value;
+            const location = document.getElementById('location').value;
             // set Auth User
             localStorage.setItem('southcafe_user', name);
+            localStorage.setItem('southcafe_location', location);
             // initialize Wallet with 0.00
             if(!localStorage.getItem('southcafe_wallet')) {
                 localStorage.setItem('southcafe_wallet', '0');
